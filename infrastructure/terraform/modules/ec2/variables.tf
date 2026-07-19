@@ -17,3 +17,7 @@ variable "anantx_sg_id" {
 variable "key_name" {
   type = string
 }
+
+variable "instance_type" {
+  type = string
+}

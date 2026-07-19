@@ -19,5 +19,7 @@ module "ec2" {
   devsecops_sg_id = module.security_groups.devsecops_sg_id
   anantx_sg_id    = module.security_groups.anantx_sg_id
 
-  key_name = "anantx-key"
+  key_name      = var.key_name
+  instance_type = var.instance_type
+
 }
