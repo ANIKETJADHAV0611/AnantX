@@ -1,21 +1,23 @@
+data "aws_availability_zones" "available" {}
+
 resource "aws_vpc" "anantx_vpc" {
-  cidr_block           = "10.0.0.0/16"
+  cidr_block           = var.vpc_cidr
   enable_dns_support   = true
   enable_dns_hostnames = true
 
   tags = {
-    Name = "anantx-vpc"
+    Name = "${var.project_name}-vpc"
   }
 }
 
 resource "aws_subnet" "public_subnet" {
   vpc_id                  = aws_vpc.anantx_vpc.id
-  cidr_block              = "10.0.1.0/24"
-  availability_zone       = "ap-south-1a"
+  cidr_block              = var.public_subnet_cidr
+  availability_zone       = data.aws_availability_zones.available.names[0]
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "anantx-public-subnet"
+    Name = "${var.project_name}-public-subnet"
   }
 }
 
@@ -23,7 +25,7 @@ resource "aws_internet_gateway" "anantx_igw" {
   vpc_id = aws_vpc.anantx_vpc.id
 
   tags = {
-    Name = "anantx-igw"
+    Name = "${var.project_name}-igw"
   }
 }
 
@@ -36,7 +38,7 @@ resource "aws_route_table" "public_rt" {
   }
 
   tags = {
-    Name = "anantx-public-rt"
+    Name = "${var.project_name}-public-rt"
   }
 }
 
