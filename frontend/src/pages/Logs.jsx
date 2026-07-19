@@ -17,7 +17,7 @@ function Logs() {
 
             const data = await response.json();
 
-            console.log("LOGS API RESPONSE:", data);
+
 
             setLogs(data.logs || []);
             setFilteredLogs(data.logs || []);
@@ -125,57 +125,68 @@ function Logs() {
                 }}
             />
 
-            <table
+            <div
                 style={{
-                    width: "100%",
-                    borderCollapse: "collapse",
-                    background: "#0f172a"
+                    overflowX: "auto",
+                    width: "100%"
                 }}
             >
-                <thead>
-                    <tr>
-                        <th style={cell}>Timestamp</th>
-                        <th style={cell}>Service</th>
-                        <th style={cell}>Severity</th>
-                        <th style={cell}>Message</th>
-                    </tr>
-                </thead>
+                <table
+                    style={{
+                        width: "100%",
+                        borderCollapse: "collapse",
+                        background: "#0f172a",
+                        tableLayout: "fixed"
+                    }}
+                >
+                    <thead>
+                        <tr>
+                            <th style={cell}>Timestamp</th>
+                            <th style={cell}>Service</th>
+                            <th style={cell}>Severity</th>
+                            <th style={cell}>Message</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    {filteredLogs.map((log, index) => (
-                        <tr key={index}>
-                            <td style={cell}>
-                                {log.timestamp}
-                            </td>
+                    <tbody>
+                        {filteredLogs.map((log, index) => (
+                            <tr key={index}>
+                                <td style={cell}>{log.timestamp}</td>
 
-                            <td style={cell}>
-                                {log.service}
-                            </td>
+                                <td style={cell}>{log.service}</td>
 
-                            <td style={cell}>
-                                <span
+                                <td style={cell}>
+                                    <span
+                                        style={{
+                                            padding: "6px 12px",
+                                            borderRadius: "999px",
+                                            background:
+                                                getSeverityColor(
+                                                    log.severity
+                                                ),
+                                            color: "white",
+                                            fontSize: "12px"
+                                        }}
+                                    >
+                                        {log.severity}
+                                    </span>
+                                </td>
+
+                                <td
                                     style={{
-                                        padding: "6px 12px",
-                                        borderRadius: "999px",
-                                        background:
-                                            getSeverityColor(
-                                                log.severity
-                                            ),
-                                        color: "white",
-                                        fontSize: "12px"
+                                        ...cell,
+                                        whiteSpace: "pre-wrap",
+                                        wordBreak: "break-word",
+                                        overflowWrap: "anywhere"
                                     }}
                                 >
-                                    {log.severity}
-                                </span>
-                            </td>
-
-                            <td style={cell}>
-                                {log.message}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                                    {log.message}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
@@ -183,7 +194,8 @@ function Logs() {
 const cell = {
     padding: "14px",
     borderBottom: "1px solid #1e293b",
-    textAlign: "left"
+    textAlign: "left",
+    verticalAlign: "top"
 };
 
 export default Logs;

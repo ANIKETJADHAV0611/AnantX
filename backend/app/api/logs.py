@@ -1,16 +1,17 @@
 from fastapi import APIRouter
 import requests
-import os
 import json
+import os
 
 router = APIRouter(
     prefix="/api/logs",
     tags=["Logs"]
 )
 
-SPLUNK_URL = os.getenv("SPLUNK_URL")
-SPLUNK_USER = os.getenv("SPLUNK_USER")
-SPLUNK_PASSWORD = os.getenv("SPLUNK_PASSWORD")
+# Fallback to working values if env vars are missing
+SPLUNK_URL = os.getenv("SPLUNK_URL", "https://splunk:8089")
+SPLUNK_USER = os.getenv("SPLUNK_USER", "admin")
+SPLUNK_PASSWORD = os.getenv("SPLUNK_PASSWORD", "AnantX@123")
 
 
 @router.get("/debug")
@@ -64,7 +65,7 @@ def get_logs():
             auth=(SPLUNK_USER, SPLUNK_PASSWORD),
             verify=False,
             data={
-                "search": "search index=main | head 50",
+                "search": "search index=main | sort - _time | head 50",
                 "output_mode": "json"
             },
             timeout=30
@@ -81,42 +82,82 @@ def get_logs():
 
                 data = json.loads(line)
 
-                if "result" not in data:
+                result = data.get("result")
+
+                if not result:
                     continue
 
-                result = data["result"]
-
                 raw_message = result.get("_raw", "")
+                message = raw_message
+
+                # Parse nested Fluent Bit JSON
+                try:
+
+                    outer = json.loads(raw_message)
+
+                    if "log" in outer:
+
+                        inner_log = outer["log"]
+
+                        try:
+
+                            inner = json.loads(inner_log)
+
+                            if "log" in inner:
+                                message = inner["log"]
+                            else:
+                                message = str(inner)
+
+                        except Exception:
+
+                            message = str(inner_log)
+
+                except Exception:
+                    pass
 
                 severity = "INFO"
 
-                raw_lower = raw_message.lower()
+                msg_lower = str(message).lower()
 
-                if "warn" in raw_lower:
+                if (
+                    "warn" in msg_lower
+                    or "warning" in msg_lower
+                ):
                     severity = "WARNING"
 
                 if (
-                    "error" in raw_lower
-                    or "critical" in raw_lower
-                    or "falco" in raw_lower
+                    "error" in msg_lower
+                    or "critical" in msg_lower
+                    or "falco" in msg_lower
+                    or "/etc/shadow" in msg_lower
+                    or "sensitive file opened" in msg_lower
+                    or "privilege escalation" in msg_lower
                 ):
                     severity = "CRITICAL"
 
-                logs.append({
-                    "timestamp": result.get("_time", "-"),
-                    "service": result.get("source", "-"),
-                    "severity": severity,
-                    "message": raw_message[:1000]
-                })
+                logs.append(
+                    {
+                        "timestamp": result.get("_time", "-"),
+                        "service": (
+                            result.get("source")
+                            or result.get("host")
+                            or "-"
+                        ),
+                        "severity": severity,
+                        "message": message[:1000]
+                    }
+                )
 
             except Exception as parse_error:
 
-                logs.append({
-                    "timestamp": "-",
-                    "service": "parser",
-                    "severity": "WARNING",
-                    "message": str(parse_error)
-                })
+                logs.append(
+                    {
+                        "timestamp": "-",
+                        "service": "parser",
+                        "severity": "WARNING",
+                        "message": str(parse_error)
+                    }
+                )
 
         return {
             "count": len(logs),
