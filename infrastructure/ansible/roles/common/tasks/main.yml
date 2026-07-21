@@ -1,0 +1,25 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Upgrade installed packages
+  apt:
+    upgrade: dist
+
+- name: Install common packages
+  apt:
+    name:
+      - git
+      - curl
+      - wget
+      - unzip
+      - zip
+      - vim
+      - python3
+      - python3-pip
+      - ca-certificates
+      - gnupg
+      - lsb-release
+    state: present
