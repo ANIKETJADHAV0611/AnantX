@@ -1,4 +1,6 @@
+# ==========================
 # Python
+# ==========================
 __pycache__/
 *.pyc
 *.pyo
@@ -6,48 +8,95 @@ __pycache__/
 *.sqlite3
 *.db
 
+# ==========================
 # Virtual Environments
+# ==========================
 venv/
 backend/venv/
 
-# Node
+# ==========================
+# Node.js
+# ==========================
 node_modules/
 frontend/node_modules/
 
-# Environment Files
+# ==========================
+# Environment Variables
+# ==========================
 .env
 .env.*
 
+# ==========================
 # Logs
+# ==========================
 *.log
 
+# ==========================
 # Reports
+# ==========================
 reports/
 backend/reports/
 
+# ==========================
 # IDE
+# ==========================
 .vscode/
 .idea/
 
-# OS
+# ==========================
+# OS Files
+# ==========================
 .DS_Store
 Thumbs.db
 
+# ==========================
 # Terraform
+# ==========================
 .terraform/
 *.tfstate
 *.tfstate.*
+terraform.tfstate
+terraform.tfstate.backup
+tfplan
+*.tfplan
+crash.log
+crash.*.log
 
+# Keep provider lock file
+!.terraform.lock.hcl
+
+# ==========================
 # Kubernetes
+# ==========================
 *.kubeconfig
 
-# Sonar
+# ==========================
+# SonarQube
+# ==========================
 .scannerwork/
 
+# ==========================
 # Docker
+# ==========================
 docker-data/
 
-# Misc
+# ==========================
+# Build & Coverage
+# ==========================
 coverage/
 dist/
 build/
+
+# ==========================
+# Archives
+# ==========================
+*.zip
+*.tar
+*.gz
+*.rar
+
+# ==========================
+# Misc
+# ==========================
+*.tmp
+*.bak

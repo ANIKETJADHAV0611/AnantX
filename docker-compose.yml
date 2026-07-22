@@ -17,6 +17,9 @@ services:
   frontend:
     build: ./frontend
     restart: unless-stopped
+
+    environment:
+      - HOST=0.0.0.0
     ports:
       - "3000:3000"
     depends_on:

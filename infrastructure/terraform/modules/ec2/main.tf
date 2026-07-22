@@ -22,6 +22,11 @@ resource "aws_instance" "anantbuy_node" {
   associate_public_ip_address = true
   key_name                    = var.key_name
 
+  root_block_device {
+  volume_size = 30
+  volume_type = "gp3"
+  }
+
   tags = {
     Name = "anantbuy-node"
   }
@@ -35,6 +40,11 @@ resource "aws_instance" "devsecops_node" {
   associate_public_ip_address = true
   key_name                    = var.key_name
 
+  root_block_device {
+  volume_size = 30
+  volume_type = "gp3"
+  }
+
   tags = {
     Name = "devsecops-node"
   }
@@ -47,6 +57,11 @@ resource "aws_instance" "anantx_node" {
   vpc_security_group_ids      = [var.anantx_sg_id]
   associate_public_ip_address = true
   key_name                    = var.key_name
+  
+  root_block_device {
+  volume_size = 30
+  volume_type = "gp3"
+  }
 
   tags = {
     Name = "anantx-node"
