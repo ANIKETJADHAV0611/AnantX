@@ -1,67 +1,34 @@
 ---
-- name: Install Git
-  apt:
-    name: git
-    state: present
-
 - name: Create application directory
   file:
-    path: /opt/anantx
+    path: "{{ app_dir }}"
     state: directory
-    owner: ubuntu
-    group: ubuntu
+    owner: "{{ app_owner }}"
+    group: "{{ app_group }}"
     mode: "0755"
 
 - name: Clone AnantX repository
   git:
-    repo: "https://github.com/vibhorkdew/AnantX.git"
-    dest: /opt/anantx
-    version: main
+    repo: " repo_url "
+    dest: "{{ app_dir }}"
+    version: "{{ repo_branch }}"
     force: yes
-  become_user: ubuntu
+  become_user: "{{ app_owner }}"
 
 - name: Create backend .env
-  copy:
-    dest: /opt/anantx/backend/.env
-    owner: ubuntu
-    group: ubuntu
+  template:
+    src: backend.env.j2
+    dest: "{{ app_dir }}/backend/.env"
+    owner: "{{ app_owner }}"
+    group: "{{ app_group }}"
     mode: "0644"
-    content: |
-      APP_NAME=AnantX
-      ENVIRONMENT=development
-      DEBUG=True
-
-      DATABASE_URL=postgresql://kavachuser:securepassword@db:5432/anantx
-
-      DB_HOST=db
-      DB_PORT=5432
-      DB_NAME=anantx
-      DB_USER=kavachuser
-      DB_PASSWORD=securepassword
-
-      SECRET_KEY=AnantXSecretKey2026
-      ALGORITHM=HS256
-      ACCESS_TOKEN_EXPIRE_MINUTES=30
-
-      PROMETHEUS_ENABLED=true
-
-      LOG_LEVEL=INFO
-
-      SPLUNK_HEC_URL=http://splunk:8088
-      SPLUNK_HEC_TOKEN=your_splunk_token_here
-
-      DOCKER_HOST=unix:///var/run/docker.sock
-
-      SPLUNK_URL=https://splunk:8089
-      SPLUNK_USER=admin
-      SPLUNK_PASSWORD=AnantX@123
-
+    
 - name: Ensure monitoring network exists
   community.docker.docker_network:
-    name: anant-monitoring
+    name: "{{ docker_network }}"
     state: present
 
 - name: Build and start AnantX
   shell: docker compose up -d --build
   args:
-    chdir: /opt/anantx
+    chdir: "{{ app_dir }}"

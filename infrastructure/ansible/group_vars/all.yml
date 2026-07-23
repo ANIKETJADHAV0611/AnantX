@@ -1,0 +1,11 @@
+---
+app_name: AnantX
+app_dir: /opt/anantx
+
+repo_url: "https://github.com/vibhorkdew/AnantX.git"
+repo_branch: main
+
+app_owner: ubuntu
+app_group: ubuntu
+
+docker_network: anant-monitoring
