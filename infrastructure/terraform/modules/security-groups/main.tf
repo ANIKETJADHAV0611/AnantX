@@ -27,8 +27,23 @@ resource "aws_security_group" "app_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # PostgreSQL should NOT be publicly exposed.
-  # If required later, allow only from trusted Security Groups or CIDRs.
+  ingress {
+    description = "AnantBuy Frontend"
+    from_port   = 4000
+    to_port     = 4000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "AnantBuy Backend"
+    from_port   = 9000
+    to_port     = 9000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # PostgreSQL intentionally NOT exposed publicly.
 
   egress {
     from_port   = 0
@@ -63,7 +78,7 @@ resource "aws_security_group" "devsecops_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Uncomment when Jenkins is installed
+  # Uncomment later if Jenkins is installed.
   #
   # ingress {
   #   description = "Jenkins"
@@ -110,6 +125,14 @@ resource "aws_security_group" "anantx_sg" {
     description = "Backend (FastAPI)"
     from_port   = 8000
     to_port     = 8000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "Grafana"
+    from_port   = 3001
+    to_port     = 3001
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
