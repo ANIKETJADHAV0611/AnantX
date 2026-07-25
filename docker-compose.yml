@@ -17,11 +17,10 @@ services:
   frontend:
     build: ./frontend
     restart: unless-stopped
-
     environment:
       - HOST=0.0.0.0
     ports:
-      - "3000:3000"
+      - "3000:80"
     depends_on:
       - backend
     networks:
@@ -122,6 +121,7 @@ volumes:
 
 networks:
   anantx-network:
+    driver: bridge
 
   anant-monitoring:
     external: true
