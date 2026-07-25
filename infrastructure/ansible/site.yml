@@ -7,6 +7,13 @@
     - common
     - docker
 
+- name: Deploy AnantBuy
+  hosts: anantbuy
+  become: yes
+
+  roles:
+    - anantbuy
+
 - name: Deploy AnantX
   hosts: anantx
   become: yes

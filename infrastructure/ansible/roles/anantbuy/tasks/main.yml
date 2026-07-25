@@ -13,7 +13,7 @@
   git:
     repo: "{{ anantbuy_repo }}"
     dest: /opt/anantbuy
-    version: "{{ anantbuy_branch }}"
+    version: "{{ anantbuy_branch }}"  
     force: yes
 
 - name: Create root .env
