@@ -1,4 +1,3 @@
----
 - name: Create application directory
   file:
     path: "{{ app_dir }}"
@@ -9,7 +8,7 @@
 
 - name: Clone AnantX repository
   git:
-    repo: " repo_url "
+    repo: "{{ repo_url }}"
     dest: "{{ app_dir }}"
     version: "{{ repo_branch }}"
     force: yes
@@ -22,7 +21,7 @@
     owner: "{{ app_owner }}"
     group: "{{ app_group }}"
     mode: "0644"
-    
+
 - name: Ensure monitoring network exists
   community.docker.docker_network:
     name: "{{ docker_network }}"
