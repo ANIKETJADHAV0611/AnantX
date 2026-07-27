@@ -12,7 +12,7 @@ function Logs() {
     const fetchLogs = async () => {
         try {
             const response = await fetch(
-                "http://localhost:8000/api/logs"
+                "${window.location.protocol}//${window.location.hostname}:8000/api/logs"
             );
 
             const data = await response.json();

@@ -9,7 +9,7 @@
 
         useEffect(() => {
 
-            fetch("http://localhost:8000/api/containers")
+            fetch("${window.location.protocol}//${window.location.hostname}:8000/api/containers")
                 .then((res) => res.json())
                 .then((data) => setContainers(data))
                 .catch((err) => console.error(err));

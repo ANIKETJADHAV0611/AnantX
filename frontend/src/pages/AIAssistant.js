@@ -18,7 +18,7 @@ function AIAssistant() {
         try {
 
             const response = await fetch(
-                "http://localhost:8000/api/ai/query",
+                "${window.location.protocol}//${window.location.hostname}:8000/api/ai/query",
                 {
                     method: "POST",
                     headers: {

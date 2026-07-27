@@ -26,7 +26,7 @@ function Vulnerabilities() {
 
     useEffect(() => {
 
-        fetch("http://localhost:8000/api/vulnerabilities")
+        fetch("${window.location.protocol}//${window.location.hostname}:8000/api/vulnerabilities")
             .then((res) => res.json())
             .then((data) => setData(data))
             .catch((err) => console.error(err));

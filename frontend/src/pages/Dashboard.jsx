@@ -38,7 +38,7 @@ const Dashboard = () => {
 
     const loadMetrics = () => {
 
-        fetch("http://localhost:8000/api/dashboard/metrics")
+        fetch("${window.location.protocol}//${window.location.hostname}:8000/api/dashboard/metrics")
             .then((res) => res.json())
             .then((data) => {
                 setMetrics(data);

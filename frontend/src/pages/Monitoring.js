@@ -9,7 +9,7 @@ function Monitoring() {
     const [lastUpdated, setLastUpdated] = useState("");
 
     const loadMonitoringData = () => {
-        fetch("http://localhost:8000/api/monitoring")
+        fetch("${window.location.protocol}//${window.location.hostname}:8000/api/monitoring")
             .then((res) => res.json())
             .then((data) => {
                 setData(data);

@@ -9,7 +9,7 @@ function Threats() {
 
     useEffect(() => {
 
-        fetch("http://localhost:8000/threats")
+        fetch("${window.location.protocol}//${window.location.hostname}:8000/threats")
             .then((res) => res.json())
             .then((data) => setThreats(data))
             .catch((err) => console.error(err));
