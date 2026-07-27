@@ -24,14 +24,13 @@ app = FastAPI(
 Base.metadata.create_all(bind=engine)
 
 # CORS
-app.add_middleware(app.add_middleware(
+app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
-))
-
+)
 # Routers
 app.include_router(auth.router)
 app.include_router(containers.router)
