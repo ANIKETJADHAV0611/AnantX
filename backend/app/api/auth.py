@@ -9,6 +9,7 @@ from app.core.jwt_handler import create_access_token
 
 router = APIRouter()
 
+
 @router.post("/register")
 def register_user(
     user: UserCreate,
@@ -20,7 +21,6 @@ def register_user(
     ).first()
 
     if existing_user:
-
         raise HTTPException(
             status_code=400,
             detail="Username already exists"
@@ -35,14 +35,13 @@ def register_user(
     )
 
     db.add(new_user)
-
     db.commit()
-
     db.refresh(new_user)
 
     return {
         "message": "User registered successfully"
     }
+
 
 @router.post("/login")
 def login_user(
@@ -55,17 +54,33 @@ def login_user(
     ).first()
 
     if not db_user:
+        print("=" * 60)
+        print("LOGIN FAILED")
+        print("Username entered :", repr(user.username))
+        print("Reason           : User not found")
+        print("=" * 60)
 
         raise HTTPException(
             status_code=401,
             detail="Invalid username"
         )
 
-    if not verify_password(
+    print("=" * 60)
+    print("LOGIN ATTEMPT")
+    print("Username entered :", repr(user.username))
+    print("Password entered :", repr(user.password))
+    print("DB Username      :", repr(db_user.username))
+    print("DB Hash          :", db_user.hashed_password)
+
+    password_valid = verify_password(
         user.password,
         db_user.hashed_password
-    ):
+    )
 
+    print("Password Verify  :", password_valid)
+    print("=" * 60)
+
+    if not password_valid:
         raise HTTPException(
             status_code=401,
             detail="Invalid password"
@@ -77,6 +92,8 @@ def login_user(
             "role": db_user.role
         }
     )
+
+    print("JWT Generated Successfully")
 
     return {
         "access_token": token,
