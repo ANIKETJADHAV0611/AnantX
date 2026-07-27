@@ -42,3 +42,6 @@
     name: ubuntu
     groups: docker
     append: yes
+    
+- name: Reset SSH connection
+  meta: reset_connection
