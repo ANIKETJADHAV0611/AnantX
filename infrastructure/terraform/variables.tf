@@ -32,3 +32,13 @@ variable "public_subnet_cidr" {
   type        = string
   default     = "10.0.1.0/24"
 }
+variable "aws_profile" {
+  description = "AWS CLI Profile"
+  type        = string
+  default     = "default"
+}
+
+variable "ssh_private_key" {
+  description = "Path to SSH private key"
+  type        = string
+}

@@ -61,7 +61,18 @@ tfplan
 *.tfplan
 crash.log
 crash.*.log
+# Terraform
+**/.terraform/
+**/.terraform.lock.hcl
+**/terraform.tfstate
+**/terraform.tfstate.*
+**/tfplan
 
+# Local configuration
+**/terraform.tfvars
+
+# SSH Keys
+*.pem
 # Keep provider lock file
 !.terraform.lock.hcl
 

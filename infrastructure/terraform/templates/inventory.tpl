@@ -9,4 +9,4 @@ ${anantx_ip}
 
 [all:vars]
 ansible_user=ubuntu
-ansible_ssh_private_key_file=~/.ssh/anantx-key.pem
+ansible_ssh_private_key_file=${ssh_private_key}

@@ -6,9 +6,10 @@ aws_profile = "default"
 
 instance_type = "m7i-flex.large"
 
-key_name = "vibhor-key"
+key_name = "your-key"
 
-ssh_private_key = "~/.ssh/vibhor-key.pem"
+ssh_private_key = "~/.ssh/your-key.pem"
+
 vpc_cidr = "10.0.0.0/16"
 
 public_subnet_cidr = "10.0.1.0/24"

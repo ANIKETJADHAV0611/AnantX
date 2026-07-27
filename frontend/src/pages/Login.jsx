@@ -12,24 +12,43 @@ const Login = ({ setAuthenticated }) => {
     const [password, setPassword] = useState("");
 const [error, setError] = useState("");
     const handleLogin = async () => {
-        try {
-            const response = await API.post("/login", {
-                username: username,
-                password: password
-            });
+    try {
+        const response = await API.post("/login", {
+            username,
+            password
+        });
 
-            localStorage.setItem(
-                "token",
-                response.data.access_token
-            );
+        console.log("LOGIN RESPONSE:", response);
+        console.log("LOGIN DATA:", response.data);
 
-            setAuthenticated(true);
-            navigate("/dashboard", { replace: true });
-        } catch (error) {
-            console.log(error.response);
-            setError("Invalid username or password");
+        localStorage.setItem(
+            "token",
+            response.data.access_token
+        );
+
+        console.log("Token saved.");
+
+        setAuthenticated(true);
+
+        console.log("Authenticated.");
+
+        navigate("/dashboard", { replace: true });
+
+        console.log("Navigation complete.");
+    } catch (err) {
+        console.log("FULL ERROR:", err);
+
+        if (err.response) {
+            console.log("Response:", err.response);
         }
-    };
+
+        if (err.message) {
+            console.log("Message:", err.message);
+        }
+
+        setError("Invalid username or password");
+    }
+};
 
     return (
 
