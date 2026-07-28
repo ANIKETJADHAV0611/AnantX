@@ -22,6 +22,18 @@
     group: "{{ app_group }}"
     mode: "0644"
 
+# ===================== ADD THIS =====================
+
+- name: Render Prometheus configuration
+  template:
+    src: prometheus.yml.j2
+    dest: "{{ app_dir }}/prometheus/prometheus.yml"
+    owner: "{{ app_owner }}"
+    group: "{{ app_group }}"
+    mode: "0644"
+
+# ================================================
+
 - name: Ensure monitoring network exists
   community.docker.docker_network:
     name: "{{ docker_network }}"
