@@ -58,9 +58,8 @@ def get_dashboard_metrics():
         anantbuy_status = "DOWN"
 
         anantbuy_result = run_query(
-            'up{job="anantbuy"}'
+            'max(up{job="anantbuy"})'
         )
-
         if (
             anantbuy_result
             and len(anantbuy_result) > 0

@@ -61,7 +61,7 @@ def anantbuy_status():
     response = requests.get(
         "http://prometheus:9090/api/v1/query",
         params={
-            "query": 'up{job="anantbuy"}'
+            "query": 'max(up{job="anantbuy"})'
         }
     )
 
