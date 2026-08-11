@@ -2,8 +2,8 @@
 
 ## 1. Clone Repositories
 
-https://github.com/ANIKETJADHAV0611/AnantX.git
-git clone https://github.com/vibhorkdew/AnantBuy.git
+git clone https://github.com/ANIKETJADHAV0611/AnantX.git
+git clone https://github.com/ANIKETJADHAV0611/AnantBuy
 OB
 ## 2. Start AnantBuy
 
